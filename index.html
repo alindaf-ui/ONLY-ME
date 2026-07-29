@@ -8,483 +8,629 @@
 <meta name="apple-mobile-web-app-title" content="Only Me">
 <title>Only Me</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
-body{font-family:'Inter',sans-serif;font-size:15px;color:#2a1a10;background:#f9f1ec}
+body{font-family:'Inter',sans-serif;background:#faf7ff;color:#2a1a3a}
 
-/* APP SHELL */
-.app{max-width:430px;margin:0 auto;height:100vh;display:flex;flex-direction:column;background:#f9f1ec;position:relative;overflow:hidden}
+:root{
+  --lav-deep:#6b4fa0;
+  --lav-mid:#9b7ec8;
+  --lav-bright:#c4a8e8;
+  --lav-light:#e8daf5;
+  --lav-pale:#f5f0fd;
+  --lav-bg:#faf7ff;
+  --rose:#f0c8d8;
+  --peony:#e8a0b8;
+  --white:#ffffff;
+  --text-dark:#2a1a3a;
+  --text-mid:#5a3a7a;
+  --text-soft:#a080c0;
+  --border:#e0d0f0;
+  --shadow:0 4px 20px rgba(107,79,160,0.10);
+  --shadow-sm:0 2px 12px rgba(107,79,160,0.07);
+}
+
+.app{max-width:430px;margin:0 auto;height:100vh;display:flex;flex-direction:column;background:var(--lav-bg);position:relative;overflow:hidden}
 
 /* SPLASH */
-.splash{position:absolute;inset:0;background:linear-gradient(160deg,#7a3a55 0%,#c47890 50%,#e8b0c0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity 0.8s ease,transform 0.8s ease}
-.splash.hide{opacity:0;transform:scale(1.05);pointer-events:none}
-.splash-logo{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:#fff;letter-spacing:0.04em;text-shadow:0 2px 20px rgba(0,0,0,0.2)}
-.splash-tag{font-size:0.75rem;color:rgba(255,255,255,0.8);letter-spacing:0.3em;text-transform:uppercase;margin-top:8px}
-.splash-flowers{font-size:2.5rem;margin-bottom:20px;animation:float 2s ease-in-out infinite}
-.splash-bar{width:60px;height:3px;background:rgba(255,255,255,0.4);border-radius:2px;margin-top:40px;overflow:hidden}
-.splash-progress{height:100%;width:0;background:#fff;border-radius:2px;animation:load 1.5s ease forwards}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes load{0%{width:0}100%{width:100%}}
+.splash{position:absolute;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#f8e8f0 0%,#ede0f8 40%,#e0d0f5 100%);transition:opacity 1s ease}
+.splash.hide{opacity:0;pointer-events:none}
+
+/* PEONY SVG */
+.peony-wrap{margin-bottom:28px;animation:bloom 1.2s cubic-bezier(.34,1.56,.64,1) forwards;opacity:0;transform:scale(0.6)}
+@keyframes bloom{to{opacity:1;transform:scale(1)}}
+
+.splash-brand{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--lav-deep);letter-spacing:0.14em}
+.splash-line{width:40px;height:1px;background:var(--peony);margin:14px 0}
+.splash-sub{font-size:0.63rem;color:var(--lav-mid);letter-spacing:0.35em;text-transform:uppercase}
+.splash-loader{width:50px;height:2px;background:var(--lav-light);border-radius:2px;margin-top:48px;overflow:hidden}
+.splash-prog{height:100%;width:0;background:var(--lav-mid);animation:lprog 1.7s ease forwards}
+@keyframes lprog{to{width:100%}}
 
 /* HEADER */
-.hdr{background:linear-gradient(135deg,#7a3a55,#c47890);padding:52px 20px 16px;text-align:center;flex-shrink:0}
-.hdr-logo{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#fff;letter-spacing:0.06em}
-.hdr-sub{font-size:0.68rem;color:rgba(255,255,255,0.75);letter-spacing:0.25em;text-transform:uppercase;margin-top:3px}
+.hdr{background:linear-gradient(135deg,#8060b8,#b090d8);padding:50px 22px 22px;flex-shrink:0;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.08)}
+.hdr::after{content:'';position:absolute;bottom:-30px;left:-20px;right:-20px;height:60px;background:var(--lav-bg);border-radius:50%}
+.hdr-inner{position:relative;z-index:1}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hdr-brand{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:#fff;letter-spacing:0.12em}
+.hdr-peony{font-size:1.4rem;opacity:0.9}
+.hdr-prog-wrap{background:rgba(255,255,255,0.2);border-radius:4px;height:3px;margin-bottom:5px;overflow:hidden}
+.hdr-prog{height:100%;background:rgba(255,255,255,0.9);border-radius:4px;transition:width 0.5s cubic-bezier(.4,0,.2,1);width:0%}
+.hdr-prog-row{display:flex;justify-content:space-between}
+.hdr-prog-label{font-size:0.63rem;color:rgba(255,255,255,0.7);letter-spacing:0.08em}
+.hdr-prog-pct{font-size:0.68rem;color:#fff;font-weight:600}
 
 /* TABS */
-.tabs{display:flex;padding:12px 14px 0;gap:8px;flex-shrink:0;background:#f9f1ec}
-.tab{flex:1;padding:10px 6px;border-radius:12px;text-align:center;cursor:pointer;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;border:2px solid transparent;transition:all 0.2s;user-select:none}
-.tab.day{background:#fff8e8;border-color:#dab840;color:#7a5a00}
-.tab.day.on{background:#ffd;border-color:#b89010;color:#503a00;box-shadow:0 2px 8px rgba(180,140,0,0.2)}
-.tab.nag{background:#f0eeff;border-color:#9080d0;color:#4a3a80}
-.tab.nag.on{background:#e0d8ff;border-color:#6050b0;color:#2a1a60;box-shadow:0 2px 8px rgba(100,80,180,0.2)}
-.tab.week{background:#fff0f5;border-color:#d08090;color:#7a3050}
-.tab.week.on{background:#ffe0ec;border-color:#b06070;color:#5a1030;box-shadow:0 2px 8px rgba(180,80,120,0.2)}
+.tabs{display:flex;gap:6px;padding:18px 16px 10px;flex-shrink:0;background:var(--lav-bg)}
+.tab{flex:1;padding:9px 4px;border-radius:12px;text-align:center;cursor:pointer;font-size:0.75rem;font-weight:600;letter-spacing:0.03em;border:1.5px solid var(--border);transition:all 0.2s;color:var(--text-soft);background:#fff;display:flex;align-items:center;justify-content:center;gap:5px}
+.tab.on{background:var(--lav-deep);color:#fff;border-color:var(--lav-deep);box-shadow:var(--shadow-sm)}
 
-/* SCROLL AREA */
-.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 14px 80px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 16px 90px;-webkit-overflow-scrolling:touch}
 .scroll::-webkit-scrollbar{display:none}
 .panel{display:none}.panel.on{display:block}
 
-/* ZONE DIVIDER */
-.zone{display:flex;align-items:center;gap:8px;margin:16px 0 10px}
-.zone hr{flex:1;border:none;border-top:1.5px solid #e0c8b0}
-.zone.np hr{border-top-color:#c8c0e8}
-.zpill{font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border-radius:20px;white-space:nowrap}
-.zp-gold{background:#fff0cc;color:#7a5a00;border:1.5px solid #dab840}
-.zp-pink{background:#fff0f5;color:#7a2a50;border:1.5px solid #d08090}
-.zp-purple{background:#ede8ff;color:#4a3a80;border:1.5px solid #9080d0}
-.zp-green{background:#e8f8ee;color:#2a6040;border:1.5px solid #60b080}
+/* RESET */
+.reset-btn{width:100%;padding:11px;background:transparent;border:1.5px solid var(--border);border-radius:12px;color:var(--text-soft);font-size:0.76rem;font-weight:600;cursor:pointer;margin-bottom:16px;letter-spacing:0.06em;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.reset-btn:active{background:var(--lav-pale)}
+
+/* ZONE */
+.zone{display:flex;align-items:center;gap:10px;margin:16px 0 8px}
+.zone hr{flex:1;border:none;border-top:1px solid var(--border)}
+.zpill{font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:4px 12px;border-radius:20px;white-space:nowrap;background:var(--lav-pale);color:var(--lav-mid);border:1px solid var(--lav-light)}
 
 /* STEP */
-.step{display:flex;gap:10px;margin-bottom:10px;animation:fadeUp 0.3s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.snum{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;flex-shrink:0;margin-top:2px}
-.sn-d{background:#fff0cc;border:2px solid #dab840;color:#7a5a00}
-.sn-n{background:#ede8ff;border:2px solid #9080d0;color:#4a3a80}
-.card{flex:1;border-radius:14px;padding:12px 14px;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
-.cd{background:#fffdf5;border:1.5px solid #ead090}
-.cn{background:#f8f6ff;border:1.5px solid #c8c0e8}
+.step{display:flex;gap:12px;margin-bottom:8px;animation:fadeUp 0.35s ease both}
+.step.done{opacity:0.45}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* CARD INNER */
-.ct{display:flex;align-items:center;gap:6px;margin-bottom:2px}
-.ce{font-size:1.1rem}
-.cname{font-family:'Playfair Display',serif;font-size:0.96rem;font-weight:700;color:#3a1a28;line-height:1.2}
-.csub{font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
-.cs-d{color:#c09030}.cs-n{color:#7060b0}
+/* CHECKBOX */
+.chk-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;padding-top:4px}
+.chk{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s;flex-shrink:0}
+.chk.on{background:var(--lav-mid);border-color:var(--lav-mid)}
+.chk.on::after{content:'✓';color:#fff;font-size:0.8rem;font-weight:700}
+.sn{font-size:0.58rem;font-weight:700;color:var(--text-soft);letter-spacing:0.05em}
 
-.how{display:flex;flex-direction:column;gap:4px}
-.hr{display:flex;gap:6px;align-items:flex-start;font-size:0.82rem;line-height:1.45;color:#3a2010}
-.hr.nn{color:#2a2050}
-.ar{flex-shrink:0;font-size:0.7rem;margin-top:3px;color:#c09030;font-weight:700}
-.ar.nn{color:#7060b0}
+/* CARD */
+.card{flex:1;border-radius:16px;padding:14px 16px;background:var(--white);border:1px solid var(--border);box-shadow:var(--shadow-sm);transition:all 0.2s}
+.step.done .card{background:var(--lav-pale);box-shadow:none}
+.c-head{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.c-emoji{font-size:1rem;width:30px;height:30px;background:var(--lav-pale);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--text-dark);line-height:1.2}
+.step.done .c-name{text-decoration:line-through;color:var(--text-soft)}
+.c-sub{font-size:0.61rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-soft);margin-bottom:9px;padding-left:38px}
 
-.tip{margin-top:8px;border-radius:8px;padding:6px 10px;font-size:0.77rem;font-weight:600;display:flex;align-items:flex-start;gap:6px;line-height:1.4}
-.td{background:#fff0cc;color:#7a5a00;border:1px solid #e8cc70}
-.tn{background:#ede8ff;color:#3a2a70;border:1px solid #b0a8e0}
-.tr{background:#fff0f0;color:#a03030;border:1px solid #f0b0b0}
-.tg{background:#e8f8ee;color:#2a6040;border:1px solid #80c090}
+.how{display:flex;flex-direction:column;gap:5px}
+.hw{display:flex;gap:8px;align-items:flex-start;font-size:0.81rem;line-height:1.5;color:var(--text-mid)}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--lav-bright);flex-shrink:0;margin-top:7px}
 
-/* ALT CARDS */
-.arow{display:flex;gap:10px;margin-bottom:10px}
-.anum{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;flex-shrink:0;margin-top:2px}
-.acard{flex:1;border-radius:14px;padding:12px 14px;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
-.ac-ret{background:#f5f0ff;border:1.5px solid #9080d0}
-.ac-hid{background:#edfaf5;border:1.5px solid #60b090}
-.ac-mask{background:#fdf0ff;border:1.5px solid #c080d0}
-.ac-exfo{background:#fdfff0;border:1.5px solid #a0b040}
-.ath{display:flex;align-items:center;gap:7px;margin-bottom:7px}
-.ate{font-size:1rem}
-.atname{font-family:'Playfair Display',serif;font-size:0.96rem;font-weight:700;line-height:1.2}
-.atsub{font-size:0.64rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-top:1px}
+.tip{margin-top:9px;border-radius:10px;padding:7px 11px;font-size:0.75rem;font-weight:600;display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.t-lav{background:var(--lav-pale);color:var(--lav-deep);border:1px solid var(--lav-light)}
+.t-red{background:#fff2f2;color:#802030;border:1px solid #f5c0c8}
+.t-rose{background:#fff0f5;color:#7a2040;border:1px solid #f0c0d0}
+.t-amber{background:#fffbea;color:#4a3000;border:1px solid #f0d870}
 
-/* WEEK PANEL */
-.week-hero{background:linear-gradient(135deg,#7a3a55,#c47890);border-radius:18px;padding:20px;margin-bottom:14px;text-align:center;color:#fff}
-.wh-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:4px}
-.wh-sub{font-size:0.75rem;opacity:0.8;letter-spacing:0.1em}
+/* ALT STEPS */
+.arow{display:flex;gap:12px;margin-bottom:8px;animation:fadeUp 0.35s ease both}
+.achk{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);background:#fff;cursor:pointer;flex-shrink:0;margin-top:4px;display:flex;align-items:center;justify-content:center;transition:all 0.25s}
+.achk.on{background:var(--lav-mid);border-color:var(--lav-mid)}
+.achk.on::after{content:'✓';color:#fff;font-size:0.8rem;font-weight:700}
+.acard{flex:1;border-radius:16px;padding:14px 16px;box-shadow:var(--shadow-sm)}
+.a-ret{background:#f8f4ff;border:1px solid #ddd0f8}
+.a-hid{background:#f5fff8;border:1px solid #c0e8cc}
+.a-mask{background:#fff4fb;border:1px solid #f0c8e4}
+.a-exfo{background:#fdfff0;border:1px solid #dce890}
+.a-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;line-height:1.2;margin-bottom:2px}
+.a-sub{font-size:0.61rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:8px}
+
+/* WEEK */
+.w-hero{background:linear-gradient(135deg,#7050b0,#b090d8);border-radius:20px;padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;color:#fff}
+.w-hero::after{content:'🌸';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:4rem;opacity:0.12}
+.w-hero-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:0.06em}
+.w-hero-sub{font-size:0.63rem;opacity:0.75;letter-spacing:0.2em;text-transform:uppercase;margin-top:4px}
+
 .wgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:14px}
-.wd{border-radius:10px;padding:8px 2px;text-align:center}
-.wd-r{background:#ede8ff;border:1.5px solid #9080d0}
-.wd-h{background:#edfaf5;border:1.5px solid #60b090}
-.wd-m{background:#fdf0ff;border:1.5px solid #c080d0}
-.wd-e{background:#fdfff0;border:1.5px solid #a0b040}
-.wdn{font-size:0.58rem;font-weight:700;text-transform:uppercase;color:#7a6070;margin-bottom:2px}
-.wde{font-size:0.95rem;display:block;margin:2px 0}
-.wdt{font-size:0.58rem;font-weight:700}
-.wt-r{color:#4a3a80}.wt-h{color:#2a6050}.wt-m{color:#6a2a7a}.wt-e{color:#4a5010}
+.wd{border-radius:12px;padding:9px 2px;text-align:center;background:#fff;border:1px solid var(--border)}
+.wd-r{background:#f8f4ff;border-color:#d8c8f8}
+.wd-h{background:#f0fdf6;border-color:#b8e8cc}
+.wd-m{background:#fff4fb;border-color:#f0c8e4}
+.wd-e{background:#fdfff0;border-color:#d8e890}
+.wdn{font-size:0.56rem;font-weight:700;text-transform:uppercase;color:var(--text-soft);margin-bottom:3px}
+.wde{font-size:0.9rem;display:block;margin:2px 0}
+.wdt{font-size:0.54rem;font-weight:700}
+.c-ret{color:#5a3a90}.c-hid{color:#1a6040}.c-mask{color:#902060}.c-exfo{color:#4a5010}
 
-.expect-card{background:#fff;border-radius:14px;padding:15px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.06);border:1.5px solid #f0d8e8}
-.ec-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#5a2a40;margin-bottom:10px}
-.ec-row{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
-.ec-badge{background:#7a3a55;color:#fff;border-radius:8px;padding:4px 9px;font-size:0.68rem;font-weight:700;flex-shrink:0;white-space:nowrap}
-.ec-text{font-size:0.82rem;color:#5a2a40;line-height:1.5}
+.info-card{background:var(--white);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+.ic-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--text-dark);margin-bottom:12px}
+.ic-row{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+.ic-badge{background:var(--lav-deep);color:#fff;border-radius:8px;padding:4px 10px;font-size:0.62rem;font-weight:700;flex-shrink:0;white-space:nowrap;letter-spacing:0.04em}
+.ic-text{font-size:0.81rem;color:var(--text-mid);line-height:1.55}
 
-.rules-card{background:#fff;border-radius:14px;padding:15px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.06);border:1.5px solid #f0d8e8}
-.rc-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#5a2a40;margin-bottom:10px}
-.rule{display:flex;gap:8px;padding:9px 12px;border-radius:10px;margin-bottom:7px;font-size:0.82rem;font-weight:500;line-height:1.5;align-items:flex-start}
-.ru-r{background:#fff0f0;border-left:4px solid #c04040;color:#2a1010}
-.ru-g{background:#fffaee;border-left:4px solid #c49030;color:#2a1a00}
-.ru-p{background:#f5f0ff;border-left:4px solid #7050b0;color:#1a1040}
-.ru-gr{background:#f0fff5;border-left:4px solid #40a060;color:#0a2010}
-.ri{font-size:0.95rem;flex-shrink:0}
+.rule{display:flex;gap:9px;padding:10px 13px;border-radius:11px;margin-bottom:6px;font-size:0.81rem;font-weight:500;line-height:1.5;align-items:flex-start}
+.r-r{background:#fff2f2;border-left:3px solid #d04060;color:#2a0a10}
+.r-a{background:#fffbea;border-left:3px solid #c0a020;color:#2a1a00}
+.r-p{background:var(--lav-pale);border-left:3px solid var(--lav-mid);color:#1a0a30}
+.r-g{background:#f0fff5;border-left:3px solid #30a060;color:#0a2010}
+.ri{font-size:0.95rem;flex-shrink:0;margin-top:1px}
 
-/* BOTTOM NAV */
-.nav{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0e0e8;display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(122,58,85,0.08)}
-.nb{flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;transition:transform 0.15s}
-.nb:active{transform:scale(0.9)}
-.nb-icon{font-size:1.3rem}
-.nb-label{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#b0909a;transition:color 0.2s}
-.nb.on .nb-label{color:#7a3a55}
-.nb-dot{width:5px;height:5px;border-radius:50%;background:#7a3a55;margin:0 auto;opacity:0;transition:opacity 0.2s}
+/* DONE CARD */
+.done-card{border-radius:18px;padding:22px;text-align:center;color:#fff;margin-top:10px;display:none}
+.dc-day{background:linear-gradient(135deg,#7050b0,#c090d8)}
+.dc-night{background:linear-gradient(135deg,#5a3888,#a070c8)}
+.dc-icon{font-size:2rem;margin-bottom:8px}
+.dc-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;margin-bottom:4px;letter-spacing:0.04em}
+.dc-sub{font-size:0.78rem;opacity:0.85}
+
+/* NAV */
+.nav{position:absolute;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;padding:10px 0 max(10px,env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(107,79,160,0.08)}
+.nb{flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:2px 0;transition:transform 0.15s}
+.nb:active{transform:scale(0.88)}
+.nb-i{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--lav-light);transition:color 0.2s}
+.nb.on .nb-i{color:var(--lav-deep)}
+.nb-i svg{stroke:currentColor}
+.nb-l{font-size:0.55rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#c0a8d8;transition:color 0.2s}
+.nb.on .nb-l{color:var(--lav-deep)}
+.nb-dot{width:4px;height:4px;border-radius:50%;background:var(--peony);margin:0 auto;opacity:0;transition:opacity 0.2s}
 .nb.on .nb-dot{opacity:1}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- SPLASH -->
-  <div class="splash" id="splash">
-    <div class="splash-flowers">🌸</div>
-    <div class="splash-logo">Only Me</div>
-    <div class="splash-tag">Jou Persoonlike Velroetine</div>
-    <div class="splash-bar"><div class="splash-progress"></div></div>
+<!-- SPLASH -->
+<div class="splash" id="splash">
+  <!-- PEONY SVG -->
+  <div class="peony-wrap">
+    <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer petals -->
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#f0b8cc" opacity="0.85" transform="rotate(0 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#e8a0b8" opacity="0.7" transform="rotate(45 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#f0b8cc" opacity="0.85" transform="rotate(90 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#e8a0b8" opacity="0.7" transform="rotate(135 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#f0b8cc" opacity="0.85" transform="rotate(180 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#e8a0b8" opacity="0.7" transform="rotate(225 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#f0b8cc" opacity="0.85" transform="rotate(270 55 55)"/>
+      <ellipse cx="55" cy="22" rx="10" ry="18" fill="#e8a0b8" opacity="0.7" transform="rotate(315 55 55)"/>
+      <!-- Mid petals -->
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f8c8d8" opacity="0.9" transform="rotate(22 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f0b0c8" opacity="0.9" transform="rotate(67 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f8c8d8" opacity="0.9" transform="rotate(112 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f0b0c8" opacity="0.9" transform="rotate(157 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f8c8d8" opacity="0.9" transform="rotate(202 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f0b0c8" opacity="0.9" transform="rotate(247 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f8c8d8" opacity="0.9" transform="rotate(292 55 55)"/>
+      <ellipse cx="55" cy="30" rx="8" ry="14" fill="#f0b0c8" opacity="0.9" transform="rotate(337 55 55)"/>
+      <!-- Inner petals -->
+      <ellipse cx="55" cy="38" rx="6" ry="11" fill="#fcd8e4" transform="rotate(0 55 55)"/>
+      <ellipse cx="55" cy="38" rx="6" ry="11" fill="#f8c0d4" transform="rotate(60 55 55)"/>
+      <ellipse cx="55" cy="38" rx="6" ry="11" fill="#fcd8e4" transform="rotate(120 55 55)"/>
+      <ellipse cx="55" cy="38" rx="6" ry="11" fill="#f8c0d4" transform="rotate(180 55 55)"/>
+      <ellipse cx="55" cy="38" rx="6" ry="11" fill="#fcd8e4" transform="rotate(240 55 55)"/>
+      <ellipse cx="55" cy="38" rx="6" ry="11" fill="#f8c0d4" transform="rotate(300 55 55)"/>
+      <!-- Centre -->
+      <circle cx="55" cy="55" r="12" fill="#fce8f0"/>
+      <circle cx="55" cy="55" r="8" fill="#f8d0e4"/>
+      <circle cx="55" cy="55" r="5" fill="#f0b8d0"/>
+      <!-- Stamens -->
+      <circle cx="51" cy="51" r="1.5" fill="#c87898"/>
+      <circle cx="55" cy="49" r="1.5" fill="#c87898"/>
+      <circle cx="59" cy="51" r="1.5" fill="#c87898"/>
+      <circle cx="58" cy="55" r="1.5" fill="#c87898"/>
+      <circle cx="55" cy="57" r="1.5" fill="#c87898"/>
+      <circle cx="52" cy="55" r="1.5" fill="#c87898"/>
+    </svg>
+  </div>
+  <div class="splash-brand">Only Me</div>
+  <div class="splash-line"></div>
+  <div class="splash-sub">Persoonlike Velroetine</div>
+  <div class="splash-loader"><div class="splash-prog"></div></div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-top">
+      <div class="hdr-brand">Only Me</div>
+      <span class="hdr-peony">
+        <svg width="22" height="22" viewBox="0 0 110 110" fill="none">
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.6)" transform="rotate(0 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.5)" transform="rotate(45 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.6)" transform="rotate(90 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.5)" transform="rotate(135 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.6)" transform="rotate(180 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.5)" transform="rotate(225 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.6)" transform="rotate(270 55 55)"/>
+          <ellipse cx="55" cy="22" rx="10" ry="18" fill="rgba(255,255,255,0.5)" transform="rotate(315 55 55)"/>
+          <circle cx="55" cy="55" r="14" fill="rgba(255,255,255,0.4)"/>
+        </svg>
+      </span>
+    </div>
+    <div class="hdr-prog-wrap"><div class="hdr-prog" id="progBar"></div></div>
+    <div class="hdr-prog-row">
+      <span class="hdr-prog-label" id="progLabel">Oggend Roetine</span>
+      <span class="hdr-prog-pct" id="progPct">0%</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab on" onclick="showTab('day',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    Oggend
+  </div>
+  <div class="tab" onclick="showTab('nag',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    Aand
+  </div>
+  <div class="tab" onclick="showTab('week',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Week
+  </div>
+</div>
+
+<div class="scroll">
+
+<!-- ===== OGGEND ===== -->
+<div class="panel on" id="panel-day">
+  <button class="reset-btn" onclick="resetPanel('day')">↺ &nbsp;Herstel Oggend Roetine</button>
+
+  <div class="zone"><hr><div class="zpill">Stap 1 — Was Eerste</div><hr></div>
+  <div class="step" id="d1">
+    <div class="chk-col"><div class="chk" onclick="tick('d1')" id="c-d1"></div><div class="sn">01</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">🫧</div><div class="c-name">Régim-A Derma Zest</div></div>
+      <div class="c-sub">Reinig + Toon — Altyd Eerste</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>1 pomp op nat hande</div>
+        <div class="hw"><div class="dot"></div>Masseer 1 minuut op gesig én nek</div>
+        <div class="hw"><div class="dot"></div>Spoel deeglik af, droog saggies</div>
+      </div>
+      <div class="tip t-red">🚫 Nooit met enige ander reiniger meng nie</div>
+    </div>
   </div>
 
-  <!-- HEADER -->
-  <div class="hdr">
-    <div class="hdr-logo">🌸 Only Me</div>
-    <div class="hdr-sub">Jou persoonlike velroetine</div>
+  <div class="zone"><hr><div class="zpill">Stap 2 & 3 — Oë & Lippe</div><hr></div>
+  <div class="step" id="d2" style="animation-delay:.07s">
+    <div class="chk-col"><div class="chk" onclick="tick('d2')" id="c-d2"></div><div class="sn">02</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">🌸</div><div class="c-name">Sorbet Age Affect Eye & Lip Serum</div></div>
+      <div class="c-sub">Uitdrukkingslyntjies + Lippe</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Klein druppel op <strong>ringvinger</strong></div>
+        <div class="hw"><div class="dot"></div>Tik-tik onder oë — binne na buite</div>
+        <div class="hw"><div class="dot"></div>Bo-ooglid saggies, rondom lippe</div>
+      </div>
+      <div class="tip t-lav">💍 Altyd ringvinger — nooit vryf nie</div>
+    </div>
+  </div>
+  <div class="step" id="d3" style="animation-delay:.14s">
+    <div class="chk-col"><div class="chk" onclick="tick('d3')" id="c-d3"></div><div class="sn">03</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">❄️</div><div class="c-name">L'Oréal Revitalift Filler Eye Roller</div></div>
+      <div class="c-sub">Koue Roller — Na Sorbet</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Rollerpen direk op vel</div>
+        <div class="hw"><div class="dot"></div>Neuskant → buitekant, 3× herhaal</div>
+        <div class="hw"><div class="dot"></div>Tik in met ringvinger daarna</div>
+      </div>
+      <div class="tip t-lav">❄️ Koue roller verminder pofferigheid</div>
+    </div>
   </div>
 
-  <!-- TABS -->
-  <div class="tabs">
-    <div class="tab day on" onclick="showTab('day')">☀️ Oggend</div>
-    <div class="tab nag" onclick="showTab('nag')">🌙 Aand</div>
-    <div class="tab week" onclick="showTab('week')">📅 Week</div>
+  <div class="zone"><hr><div class="zpill">Stap 4 & 5 — Gesig</div><hr></div>
+  <div class="step" id="d4" style="animation-delay:.21s">
+    <div class="chk-col"><div class="chk" onclick="tick('d4')" id="c-d4"></div><div class="sn">04</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">🍊</div><div class="c-name">Olay Luminous Vitamien C Serum</div></div>
+      <div class="c-sub">Antioksidant + Verhelder</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>3–4 druppels op gesig</div>
+        <div class="hw"><div class="dot"></div>Klop liggies in — nie vryf nie</div>
+        <div class="hw"><div class="dot"></div>30 sekondes laat absorbeer</div>
+      </div>
+      <div class="tip t-red">🚫 Vitamien C slegs OGGEND — nooit saans</div>
+    </div>
+  </div>
+  <div class="step" id="d5" style="animation-delay:.28s">
+    <div class="chk-col"><div class="chk" onclick="tick('d5')" id="c-d5"></div><div class="sn">05</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">💜</div><div class="c-name">L'Oréal Revitalift Laser Day Cream</div></div>
+      <div class="c-sub">Pro-Retinol + Hialuron + Peptides</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Ertjie-grootte op gesig</div>
+        <div class="hw"><div class="dot"></div>Plat hande opwaarts ↑, 60 sekondes</div>
+        <div class="hw"><div class="dot"></div>Twee vingers buitentoe →</div>
+      </div>
+    </div>
   </div>
 
-  <!-- SCROLL AREA -->
-  <div class="scroll">
-
-    <!-- ===== OGGEND ===== -->
-    <div class="panel on" id="panel-day">
-
-      <div class="zone"><hr><div class="zpill zp-gold">🚿 Stap 1 — Was Eerste</div><hr></div>
-      <div class="step" style="animation-delay:0.05s">
-        <div class="snum sn-d">1</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">🫧</span><div class="cname">Régim-A Derma Zest</div></div>
-          <div class="csub cs-d">Reinig + Toon — Altyd Eerste</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>1 pomp op nat hande</div>
-            <div class="hr"><span class="ar">→</span>1 minuut masseer op gesig én nek</div>
-            <div class="hr"><span class="ar">→</span>Spoel deeglik af, droog saggies</div>
-          </div>
-          <div class="tip tr">🚫 Nooit met enige ander reiniger meng nie</div>
-        </div>
+  <div class="zone"><hr><div class="zpill">Stap 6 — Nek</div><hr></div>
+  <div class="step" id="d6" style="animation-delay:.35s">
+    <div class="chk-col"><div class="chk" onclick="tick('d6')" id="c-d6"></div><div class="sn">06</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">⬆️</div><div class="c-name">Vitamien C + Laser Cream op Nek</div></div>
+      <div class="c-sub">Sonskade Herstel + Fermering</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Beide produkte ook op nek smeer</div>
+        <div class="hw"><div class="dot"></div>Plat hand — altyd OPWAARTS ↑</div>
+        <div class="hw"><div class="dot"></div>Van sleutelbeen na ken, 2 minute</div>
       </div>
-
-      <div class="zone"><hr><div class="zpill zp-pink">👁️ Stap 2 & 3 — Oë & Lippe</div><hr></div>
-      <div class="step" style="animation-delay:0.1s">
-        <div class="snum sn-d">2</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">🌸</span><div class="cname">Sorbet Age Affect Eye & Lip Serum</div></div>
-          <div class="csub cs-d">Uitdrukkingslyntjies + Lippe</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>Klein druppel op <strong>ringvinger</strong></div>
-            <div class="hr"><span class="ar">→</span>Tik-tik onder oë — binne na buite</div>
-            <div class="hr"><span class="ar">→</span>Bo-ooglid saggies, rondom lippe ook</div>
-          </div>
-          <div class="tip td">💍 Altyd ringvinger — nooit vryf nie</div>
-        </div>
-      </div>
-      <div class="step" style="animation-delay:0.15s">
-        <div class="snum sn-d">3</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">❄️</span><div class="cname">L'Oréal Revitalift Filler Eye Roller</div></div>
-          <div class="csub cs-d">Koue Roller — Na Sorbet</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>Rollerpen direk op vel</div>
-            <div class="hr"><span class="ar">→</span>Begin by neuskant → rol na buitekant</div>
-            <div class="hr"><span class="ar">→</span>3 keer herhaal, tik in met ringvinger</div>
-          </div>
-          <div class="tip td">❄️ Koue roller verminder pofferigheid</div>
-        </div>
-      </div>
-
-      <div class="zone"><hr><div class="zpill zp-gold">✨ Stap 4 & 5 — Gesig</div><hr></div>
-      <div class="step" style="animation-delay:0.2s">
-        <div class="snum sn-d">4</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">🍊</span><div class="cname">Olay Luminous Vitamien C Serum</div></div>
-          <div class="csub cs-d">Antioksidant + Verhelder</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>3-4 druppels op gesig</div>
-            <div class="hr"><span class="ar">→</span>Klop liggies in — nie vryf nie</div>
-            <div class="hr"><span class="ar">→</span>30 sekondes laat absorbeer</div>
-          </div>
-          <div class="tip tr">🚫 Vitamien C slegs OGGEND — nooit saans nie</div>
-        </div>
-      </div>
-      <div class="step" style="animation-delay:0.25s">
-        <div class="snum sn-d">5</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">💜</span><div class="cname">L'Oréal Revitalift Laser Day Cream</div></div>
-          <div class="csub cs-d">Pro-Retinol + Hialuron + Peptides</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>Ertjie-grootte op gesig</div>
-            <div class="hr"><span class="ar">→</span>Plat hande — masseer opwaarts ↑</div>
-            <div class="hr"><span class="ar">→</span>Twee vingers buitentoe → 60 sekondes</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="zone"><hr><div class="zpill zp-green">🌿 Stap 6 — Nek (Nie Oorslaan!)</div><hr></div>
-      <div class="step" style="animation-delay:0.3s">
-        <div class="snum sn-d">6</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">⬆️</span><div class="cname">Vitamien C + Laser Cream op Nek</div></div>
-          <div class="csub cs-d">Sonskade Herstel + Fermering</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>Beide produkte ook op nek smeer</div>
-            <div class="hr"><span class="ar">→</span>Plat hand — altyd OPWAARTS ↑</div>
-            <div class="hr"><span class="ar">→</span>Van sleutelbeen na ken, 2 minute</div>
-          </div>
-          <div class="tip tr">⬆️ NOOIT afwaarts op nek nie!</div>
-        </div>
-      </div>
-
-      <div class="zone"><hr><div class="zpill zp-gold">🛡️ Stap 7 — Laaste Stap</div><hr></div>
-      <div class="step" style="animation-delay:0.35s">
-        <div class="snum sn-d">7</div>
-        <div class="card cd">
-          <div class="ct"><span class="ce">🛡️</span><div class="cname">Eucerin SPF 50+ Photoaging Control</div></div>
-          <div class="csub cs-d">UV + Blue Light — Gesig én Nek</div>
-          <div class="how">
-            <div class="hr"><span class="ar">→</span>Groot ertjie vir gesig</div>
-            <div class="hr"><span class="ar">→</span>Nog 'n ertjie vir die nek</div>
-            <div class="hr"><span class="ar">→</span>Dan grimering bo-oor</div>
-          </div>
-          <div class="tip td">☀️ ELKE dag — ook binne, ook bewolkte dae</div>
-        </div>
-      </div>
-
-    </div><!-- end day -->
-
-    <!-- ===== AAND ===== -->
-    <div class="panel" id="panel-nag">
-
-      <div class="zone np"><hr><div class="zpill zp-purple">🚿 Stap 1 — Was Eerste</div><hr></div>
-      <div class="step" style="animation-delay:0.05s">
-        <div class="snum sn-n">1</div>
-        <div class="card cn">
-          <div class="ct"><span class="ce">🫧</span><div class="cname">Régim-A Derma Zest</div></div>
-          <div class="csub cs-n">Verwyder Grimering + Reinig</div>
-          <div class="how">
-            <div class="hr nn"><span class="ar nn">→</span>1 pomp, 1 minuut masseer</div>
-            <div class="hr nn"><span class="ar nn">→</span>Verwyder alle grimering en SPF</div>
-            <div class="hr nn"><span class="ar nn">→</span>Gesig én nek, spoel deeglik af</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="zone np"><hr><div class="zpill zp-pink">👁️ Stap 2 & 3 — Oë & Lippe</div><hr></div>
-      <div class="step" style="animation-delay:0.1s">
-        <div class="snum sn-n">2</div>
-        <div class="card cn">
-          <div class="ct"><span class="ce">🌸</span><div class="cname">Sorbet Age Affect Eye & Lip Serum</div></div>
-          <div class="csub cs-n">Elke Aand Sonder Uitskiet</div>
-          <div class="how">
-            <div class="hr nn"><span class="ar nn">→</span>Ringvinger tik-tik onder oë</div>
-            <div class="hr nn"><span class="ar nn">→</span>Binne na buite — bo-ooglid ook</div>
-            <div class="hr nn"><span class="ar nn">→</span>Rondom lippe ook aanbring</div>
-          </div>
-          <div class="tip tn">💍 Altyd ringvinger — nooit vryf</div>
-        </div>
-      </div>
-      <div class="step" style="animation-delay:0.15s">
-        <div class="snum sn-n">3</div>
-        <div class="card cn">
-          <div class="ct"><span class="ce">✨</span><div class="cname">Régim-A New Expression-365 Under Eye Fix</div></div>
-          <div class="csub cs-n">Uitdrukkingslyntjies + Oëarea</div>
-          <div class="how">
-            <div class="hr nn"><span class="ar nn">→</span>Voorkop, tussen wenkbroue</div>
-            <div class="hr nn"><span class="ar nn">→</span>Rondom oë saggies</div>
-            <div class="hr nn"><span class="ar nn">→</span>Op nek ook</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="zone np"><hr><div class="zpill zp-purple">💎 Stap 4 & 5 — Serums</div><hr></div>
-      <div class="step" style="animation-delay:0.2s">
-        <div class="snum sn-n">4</div>
-        <div class="card cn">
-          <div class="ct"><span class="ce">💙</span><div class="cname">Régim-A Scar Repair Forte SF</div></div>
-          <div class="csub cs-n">Herstel + Anti-Rek — Elke Aand</div>
-          <div class="how">
-            <div class="hr nn"><span class="ar nn">→</span>Op probleemareas gesig</div>
-            <div class="hr nn"><span class="ar nn">→</span>Op nek — opwaarts smeer ↑</div>
-            <div class="hr nn"><span class="ar nn">→</span>30 sekondes absorbeer</div>
-          </div>
-        </div>
-      </div>
-      <div class="step" style="animation-delay:0.25s">
-        <div class="snum sn-n">5</div>
-        <div class="card cn">
-          <div class="ct"><span class="ce">💎</span><div class="cname">Quantum QE Elastien-Kollageen Serum</div></div>
-          <div class="csub cs-n">Kollageen + Masseer Tyd</div>
-          <div class="how">
-            <div class="hr nn"><span class="ar nn">→</span>Op gesig én nek</div>
-            <div class="hr nn"><span class="ar nn">→</span>Plat hande opwaarts op nek ↑</div>
-            <div class="hr nn"><span class="ar nn">→</span><strong>3-5 minute masseer</strong></div>
-          </div>
-          <div class="tip tn">💆 Masseer terwyl jy smeer!</div>
-        </div>
-      </div>
-
-      <div class="zone np"><hr><div class="zpill zp-purple">🔄 Stap 6 — Wissel Elke Aand Af</div><hr></div>
-
-      <div class="arow" style="animation:fadeUp 0.3s ease 0.3s both">
-        <div class="anum" style="background:#ede8ff;border:2px solid #9080d0;color:#4a3a80">6A</div>
-        <div class="acard ac-ret">
-          <div class="ath"><span class="ate">💜</span><div><div class="atname" style="color:#2a1a60">Retinol — Ma, Wo, Vr</div><div class="atsub" style="color:#7060b0">Neutrogena Retinol Boost Night Cream</div></div></div>
-          <div class="how">
-            <div class="hr nn"><span class="ar nn">→</span><strong>Pompbottel</strong> — elke retinol aand</div>
-            <div class="hr nn"><span class="ar nn">→</span><strong>Potjie (Intense)</strong> — slegs Ma & Wo as ekstra</div>
-            <div class="hr nn"><span class="ar nn">→</span>Ertjie-grootte op gesig én nek</div>
-            <div class="hr nn"><span class="ar nn">→</span>Vermy onmiddellike oogarea</div>
-          </div>
-          <div class="tip tn" style="margin-top:8px">⚠️ Geen Dermalogica op retinol nagte</div>
-        </div>
-      </div>
-
-      <div class="arow" style="animation:fadeUp 0.3s ease 0.35s both">
-        <div class="anum" style="background:#edfaf5;border:2px solid #60b090;color:#2a6050">6B</div>
-        <div class="acard ac-hid">
-          <div class="ath"><span class="ate">💚</span><div><div class="atname" style="color:#1a5040">Hidrasie — Di, Do</div><div class="atsub" style="color:#3a8060">Garden Route Cannabis Multi-Cream</div></div></div>
-          <div class="how">
-            <div class="hr" style="color:#1a4030"><span class="ar" style="color:#3a8060">→</span>Nagroom op gesig én nek</div>
-            <div class="hr" style="color:#1a4030"><span class="ar" style="color:#3a8060">→</span>Masseer 5 minute — beste aand!</div>
-          </div>
-          <div class="tip tg" style="margin-top:8px">💆 Geniet die massering vanaand!</div>
-        </div>
-      </div>
-
-      <div class="arow" style="animation:fadeUp 0.3s ease 0.4s both">
-        <div class="anum" style="background:#fdf0ff;border:2px solid #c080d0;color:#6a2a7a">6C</div>
-        <div class="acard ac-mask">
-          <div class="ath"><span class="ate">🎭</span><div><div class="atname" style="color:#4a1060">Masker Nag — Saterdag</div><div class="atsub" style="color:#9040a0">SkinRepublic Maskers</div></div></div>
-          <div class="how">
-            <div class="hr" style="color:#3a1050"><span class="ar" style="color:#9040a0">→</span>Matrixyl 3000 Oog Mask — eers opsit</div>
-            <div class="hr" style="color:#3a1050"><span class="ar" style="color:#9040a0">→</span>Vitamien C OF Hyaluronic Sheet Mask</div>
-            <div class="hr" style="color:#3a1050"><span class="ar" style="color:#9040a0">→</span>Timer 15-20 minute, moenie afspoel</div>
-            <div class="hr" style="color:#3a1050"><span class="ar" style="color:#9040a0">→</span>Cannabis Cream daarna as nagroom</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="arow" style="animation:fadeUp 0.3s ease 0.45s both">
-        <div class="anum" style="background:#fdfff0;border:2px solid #a0b040;color:#4a5010">6D</div>
-        <div class="acard ac-exfo">
-          <div class="ath"><span class="ate">✨</span><div><div class="atname" style="color:#2a3000">Eksfoliant — Sondag</div><div class="atsub" style="color:#7a8020">Dermalogica Daily Microfoliant</div></div></div>
-          <div class="how">
-            <div class="hr" style="color:#2a3000"><span class="ar" style="color:#7a8020">→</span>Na was — voor serums</div>
-            <div class="hr" style="color:#2a3000"><span class="ar" style="color:#7a8020">→</span>Halwe teelepel + water, 1 minuut</div>
-            <div class="hr" style="color:#2a3000"><span class="ar" style="color:#7a8020">→</span>Spoel af, Cannabis Cream daarna</div>
-          </div>
-          <div class="tip" style="background:#f8ffd8;color:#3a4010;border:1px solid #a0b040;margin-top:8px;border-radius:8px;padding:6px 10px;font-size:0.77rem;font-weight:600;display:flex;gap:6px">⚠️ Geen Retinol Sondag nie</div>
-        </div>
-      </div>
-
-    </div><!-- end nag -->
-
-    <!-- ===== WEEK ===== -->
-    <div class="panel" id="panel-week">
-
-      <div class="week-hero">
-        <div class="wh-title">Weeklikse Skedule</div>
-        <div class="wh-sub">Aand roetine plan</div>
-      </div>
-
-      <div class="wgrid">
-        <div class="wd wd-r"><div class="wdn">Ma</div><span class="wde">💜</span><div class="wdt wt-r">Retinol</div></div>
-        <div class="wd wd-h"><div class="wdn">Di</div><span class="wde">💚</span><div class="wdt wt-h">Hidrasie</div></div>
-        <div class="wd wd-r"><div class="wdn">Wo</div><span class="wde">💜</span><div class="wdt wt-r">Retinol</div></div>
-        <div class="wd wd-h"><div class="wdn">Do</div><span class="wde">💚</span><div class="wdt wt-h">Hidrasie</div></div>
-        <div class="wd wd-r"><div class="wdn">Vr</div><span class="wde">💜</span><div class="wdt wt-r">Retinol</div></div>
-        <div class="wd wd-m"><div class="wdn">Sa</div><span class="wde">🎭</span><div class="wdt wt-m">Masker</div></div>
-        <div class="wd wd-e"><div class="wdn">So</div><span class="wde">✨</span><div class="wdt wt-e">Eksfo</div></div>
-      </div>
-
-      <div class="expect-card">
-        <div class="ec-title">⏳ 8-Week Verwagting</div>
-        <div class="ec-row"><div class="ec-badge">Week 1-2</div><div class="ec-text">Vel voel sagter, hidrasie verbeter merkbaar</div></div>
-        <div class="ec-row"><div class="ec-badge">Week 3-4</div><div class="ec-text">Vel meer gelykmatig, fyn lyntjies begin sagter word</div></div>
-        <div class="ec-row"><div class="ec-badge">Week 5-6</div><div class="ec-text">Sigbare fermheid, sonskade begin verbleik</div></div>
-        <div class="ec-row"><div class="ec-badge">Week 7-8</div><div class="ec-text">Merkbare lifting, vel lyk helderder en jonger</div></div>
-      </div>
-
-      <div class="rules-card">
-        <div class="rc-title">⚠️ Reëls Wat Nooit Gebreek Word</div>
-        <div class="rule ru-r"><span class="ri">🚿</span>Was gesig <strong>altyd eerste</strong> voor enige produk</div>
-        <div class="rule ru-r"><span class="ri">🚫</span>Vitamien C soggens, Retinol saans — <strong>nooit saam</strong></div>
-        <div class="rule ru-r"><span class="ri">🚫</span>Retinol en Dermalogica <strong>nooit dieselfde aand</strong></div>
-        <div class="rule ru-r"><span class="ri">🚫</span>Derma Zest <strong>nooit</strong> met ander reiniger meng</div>
-        <div class="rule ru-g"><span class="ri">⬆️</span>Nek altyd <strong>opwaarts</strong> — nooit afwaarts nie</div>
-        <div class="rule ru-p"><span class="ri">💍</span>Oë — altyd <strong>ringvinger</strong>, altyd tik, nooit vryf</div>
-        <div class="rule ru-gr"><span class="ri">☀️</span>SPF <strong>elke dag</strong> — ook binne, ook bewolkt</div>
-      </div>
-
-      <div style="background:linear-gradient(135deg,#7a3a55,#c47890);border-radius:14px;padding:16px;text-align:center;color:#fff">
-        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;line-height:1.6">"Konsekwentheid klop alles — elke dag is beter as perfekte produkte wat jy vergeet om te gebruik!"</div>
-        <div style="font-size:1.5rem;margin-top:8px">💕</div>
-      </div>
-
-    </div><!-- end week -->
-
-  </div><!-- end scroll -->
-
-  <!-- BOTTOM NAV -->
-  <div class="nav">
-    <button class="nb on" onclick="showNav('day','day')">
-      <span class="nb-icon">☀️</span>
-      <span class="nb-label">Oggend</span>
-      <div class="nb-dot"></div>
-    </button>
-    <button class="nb" onclick="showNav('nag','nag')">
-      <span class="nb-icon">🌙</span>
-      <span class="nb-label">Aand</span>
-      <div class="nb-dot"></div>
-    </button>
-    <button class="nb" onclick="showNav('week','week')">
-      <span class="nb-icon">📅</span>
-      <span class="nb-label">Week</span>
-      <div class="nb-dot"></div>
-    </button>
+      <div class="tip t-red">⬆️ NOOIT afwaarts op nek nie!</div>
+    </div>
   </div>
 
-</div><!-- end app -->
+  <div class="zone"><hr><div class="zpill">Stap 7 — Laaste Stap</div><hr></div>
+  <div class="step" id="d7" style="animation-delay:.42s">
+    <div class="chk-col"><div class="chk" onclick="tick('d7')" id="c-d7"></div><div class="sn">07</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">🛡️</div><div class="c-name">Eucerin SPF 50+ Photoaging Control</div></div>
+      <div class="c-sub">UV + Blue Light — Gesig én Nek</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Groot ertjie gesig, nog een vir nek</div>
+        <div class="hw"><div class="dot"></div>Dan grimering bo-oor</div>
+        <div class="hw"><div class="dot"></div>Elke dag — ook bewolkte dae!</div>
+      </div>
+      <div class="tip t-lav">☀️ Die mees kritieke stap — slaan nooit oor</div>
+    </div>
+  </div>
 
+  <div class="done-card dc-day" id="dayDone">
+    <div class="dc-icon">🌸</div>
+    <div class="dc-title">Oggend Roetine Voltooi</div>
+    <div class="dc-sub">Pragtig gedoen, Alinda</div>
+  </div>
+</div>
+
+<!-- ===== AAND ===== -->
+<div class="panel" id="panel-nag">
+  <button class="reset-btn" onclick="resetPanel('nag')">↺ &nbsp;Herstel Aand Roetine</button>
+
+  <div class="zone"><hr><div class="zpill">Stap 1 — Was Eerste</div><hr></div>
+  <div class="step" id="n1">
+    <div class="chk-col"><div class="chk" onclick="tickN('n1')" id="c-n1"></div><div class="sn">01</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">🫧</div><div class="c-name">Régim-A Derma Zest</div></div>
+      <div class="c-sub">Verwyder Grimering + Reinig</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>1 pomp, 1 minuut masseer</div>
+        <div class="hw"><div class="dot"></div>Verwyder alle grimering en SPF</div>
+        <div class="hw"><div class="dot"></div>Gesig én nek, spoel deeglik af</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone"><hr><div class="zpill">Stap 2 & 3 — Oë & Lippe</div><hr></div>
+  <div class="step" id="n2" style="animation-delay:.07s">
+    <div class="chk-col"><div class="chk" onclick="tickN('n2')" id="c-n2"></div><div class="sn">02</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">🌸</div><div class="c-name">Sorbet Age Affect Eye & Lip Serum</div></div>
+      <div class="c-sub">Elke Aand Sonder Uitskiet</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Ringvinger tik-tik onder oë</div>
+        <div class="hw"><div class="dot"></div>Binne na buite — bo-ooglid ook</div>
+        <div class="hw"><div class="dot"></div>Rondom lippe ook aanbring</div>
+      </div>
+      <div class="tip t-lav">💍 Altyd ringvinger — nooit vryf</div>
+    </div>
+  </div>
+  <div class="step" id="n3" style="animation-delay:.14s">
+    <div class="chk-col"><div class="chk" onclick="tickN('n3')" id="c-n3"></div><div class="sn">03</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">✨</div><div class="c-name">Régim-A New Expression-365 Under Eye Fix</div></div>
+      <div class="c-sub">Uitdrukkingslyntjies + Oëarea</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Voorkop en tussen wenkbroue</div>
+        <div class="hw"><div class="dot"></div>Rondom oë saggies</div>
+        <div class="hw"><div class="dot"></div>Op nek ook</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone"><hr><div class="zpill">Stap 4 & 5 — Serums</div><hr></div>
+  <div class="step" id="n4" style="animation-delay:.21s">
+    <div class="chk-col"><div class="chk" onclick="tickN('n4')" id="c-n4"></div><div class="sn">04</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">💙</div><div class="c-name">Régim-A Scar Repair Forte SF</div></div>
+      <div class="c-sub">Herstel + Anti-Rek — Elke Aand</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Op probleemareas gesig</div>
+        <div class="hw"><div class="dot"></div>Op nek — opwaarts smeer ↑</div>
+        <div class="hw"><div class="dot"></div>30 sekondes absorbeer</div>
+      </div>
+    </div>
+  </div>
+  <div class="step" id="n5" style="animation-delay:.28s">
+    <div class="chk-col"><div class="chk" onclick="tickN('n5')" id="c-n5"></div><div class="sn">05</div></div>
+    <div class="card">
+      <div class="c-head"><div class="c-emoji">💎</div><div class="c-name">Quantum QE Elastien-Kollageen Serum</div></div>
+      <div class="c-sub">Kollageen + Masseer Tyd</div>
+      <div class="how">
+        <div class="hw"><div class="dot"></div>Op gesig én nek</div>
+        <div class="hw"><div class="dot"></div>Plat hande opwaarts op nek ↑</div>
+        <div class="hw"><div class="dot"></div><strong>3–5 minute masseer</strong></div>
+      </div>
+      <div class="tip t-lav">💆 Masseer terwyl jy smeer!</div>
+    </div>
+  </div>
+
+  <div class="zone"><hr><div class="zpill">Stap 6 — Wissel Elke Aand Af</div><hr></div>
+
+  <div class="arow" style="animation:fadeUp .35s ease .35s both">
+    <div class="achk" onclick="tickA(this)"></div>
+    <div class="acard a-ret">
+      <div class="a-name" style="color:#4a2880">💜 Retinol — Ma, Wo, Vr</div>
+      <div class="a-sub" style="color:#8060b0">Neutrogena Retinol Boost Night Cream</div>
+      <div class="how">
+        <div class="hw"><div class="dot" style="background:#b090e0"></div><strong>Pompbottel</strong> — elke retinol aand</div>
+        <div class="hw"><div class="dot" style="background:#b090e0"></div><strong>Potjie (Intense)</strong> — net Ma & Wo ekstra</div>
+        <div class="hw"><div class="dot" style="background:#b090e0"></div>Ertjie-grootte, gesig én nek</div>
+      </div>
+      <div class="tip t-amber" style="margin-top:8px">⚠️ Geen Dermalogica op retinol nagte</div>
+    </div>
+  </div>
+
+  <div class="arow" style="animation:fadeUp .35s ease .42s both">
+    <div class="achk" onclick="tickA(this)"></div>
+    <div class="acard a-hid">
+      <div class="a-name" style="color:#1a5040">💚 Hidrasie — Di, Do</div>
+      <div class="a-sub" style="color:#3a8060">Garden Route Cannabis Multi-Cream</div>
+      <div class="how">
+        <div class="hw"><div class="dot" style="background:#60c090"></div>Nagroom op gesig én nek</div>
+        <div class="hw"><div class="dot" style="background:#60c090"></div>Masseer 5 minute — beste aand!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arow" style="animation:fadeUp .35s ease .49s both">
+    <div class="achk" onclick="tickA(this)"></div>
+    <div class="acard a-mask">
+      <div class="a-name" style="color:#7a1050">🌸 Masker Nag — Saterdag</div>
+      <div class="a-sub" style="color:#b04080">SkinRepublic Maskers</div>
+      <div class="how">
+        <div class="hw"><div class="dot" style="background:#e080b0"></div>Matrixyl 3000 Oog Mask eerste</div>
+        <div class="hw"><div class="dot" style="background:#e080b0"></div>Vitamien C OF Hyaluronic Sheet Mask</div>
+        <div class="hw"><div class="dot" style="background:#e080b0"></div>Timer 15–20 min, moenie afspoel</div>
+        <div class="hw"><div class="dot" style="background:#e080b0"></div>Cannabis Cream daarna as nagroom</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arow" style="animation:fadeUp .35s ease .56s both">
+    <div class="achk" onclick="tickA(this)"></div>
+    <div class="acard a-exfo">
+      <div class="a-name" style="color:#3a4010">✨ Eksfoliant — Sondag</div>
+      <div class="a-sub" style="color:#7a8020">Dermalogica Daily Microfoliant</div>
+      <div class="how">
+        <div class="hw"><div class="dot" style="background:#c0c840"></div>Na was — voor serums</div>
+        <div class="hw"><div class="dot" style="background:#c0c840"></div>Halwe teelepel + water, 1 minuut</div>
+        <div class="hw"><div class="dot" style="background:#c0c840"></div>Cannabis Cream daarna</div>
+      </div>
+      <div class="tip t-amber" style="margin-top:8px">⚠️ Geen Retinol Sondag nie</div>
+    </div>
+  </div>
+
+  <div class="done-card dc-night" id="nagDone">
+    <div class="dc-icon">🌸</div>
+    <div class="dc-title">Aand Roetine Voltooi</div>
+    <div class="dc-sub">Lekker slaap, Alinda</div>
+  </div>
+</div>
+
+<!-- ===== WEEK ===== -->
+<div class="panel" id="panel-week">
+  <div class="w-hero">
+    <div class="w-hero-title">Weeklikse Skedule</div>
+    <div class="w-hero-sub">Aand roetine plan</div>
+  </div>
+  <div class="wgrid">
+    <div class="wd wd-r"><div class="wdn">Ma</div><span class="wde">💜</span><div class="wdt c-ret">Retinol</div></div>
+    <div class="wd wd-h"><div class="wdn">Di</div><span class="wde">💚</span><div class="wdt c-hid">Hidrasie</div></div>
+    <div class="wd wd-r"><div class="wdn">Wo</div><span class="wde">💜</span><div class="wdt c-ret">Retinol</div></div>
+    <div class="wd wd-h"><div class="wdn">Do</div><span class="wde">💚</span><div class="wdt c-hid">Hidrasie</div></div>
+    <div class="wd wd-r"><div class="wdn">Vr</div><span class="wde">💜</span><div class="wdt c-ret">Retinol</div></div>
+    <div class="wd wd-m"><div class="wdn">Sa</div><span class="wde">🌸</span><div class="wdt c-mask">Masker</div></div>
+    <div class="wd wd-e"><div class="wdn">So</div><span class="wde">✨</span><div class="wdt c-exfo">Eksfo</div></div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-title">⏳ 8-Week Verwagting</div>
+    <div class="ic-row"><div class="ic-badge">Week 1–2</div><div class="ic-text">Vel voel sagter, hidrasie verbeter merkbaar</div></div>
+    <div class="ic-row"><div class="ic-badge">Week 3–4</div><div class="ic-text">Vel meer gelykmatig, fyn lyntjies begin sagter word</div></div>
+    <div class="ic-row"><div class="ic-badge">Week 5–6</div><div class="ic-text">Sigbare fermheid, sonskade begin verbleik</div></div>
+    <div class="ic-row"><div class="ic-badge">Week 7–8</div><div class="ic-text">Merkbare lifting, vel lyk helderder en jonger</div></div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-title">⚠️ Reëls Wat Nooit Gebreek Word</div>
+    <div class="rule r-r"><span class="ri">🚿</span>Was gesig <strong>altyd eerste</strong> voor enige produk</div>
+    <div class="rule r-r"><span class="ri">🚫</span>Vitamien C soggens, Retinol saans — <strong>nooit saam</strong></div>
+    <div class="rule r-r"><span class="ri">🚫</span>Retinol en Dermalogica <strong>nooit dieselfde aand</strong></div>
+    <div class="rule r-a"><span class="ri">⬆️</span>Nek altyd <strong>opwaarts</strong> — nooit afwaarts nie</div>
+    <div class="rule r-p"><span class="ri">💍</span>Oë — altyd <strong>ringvinger</strong>, tik saggies, nooit vryf</div>
+    <div class="rule r-g"><span class="ri">☀️</span>SPF <strong>elke dag</strong> — ook binne, ook bewolkt</div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#7050b0,#c090d8);border-radius:16px;padding:20px;text-align:center;color:#fff;margin-bottom:8px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;line-height:1.7;font-weight:300">"Konsekwentheid klop alles — elke dag is beter as perfekte produkte wat jy vergeet om te gebruik."</div>
+    <div style="font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-top:12px">— Only Me</div>
+  </div>
+</div>
+
+</div><!-- scroll -->
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nb on" onclick="showNav('day',this)">
+    <span class="nb-i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    <span class="nb-l">Oggend</span><div class="nb-dot"></div>
+  </button>
+  <button class="nb" onclick="showNav('nag',this)">
+    <span class="nb-i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+    <span class="nb-l">Aand</span><div class="nb-dot"></div>
+  </button>
+  <button class="nb" onclick="showNav('week',this)">
+    <span class="nb-i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+    <span class="nb-l">Week</span><div class="nb-dot"></div>
+  </button>
+</div>
+
+</div>
 <script>
-// Splash
 window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('splash').classList.add('hide'),1800);
+  setTimeout(()=>document.getElementById('splash').classList.add('hide'),2000);
+  updateProg();
 });
-
-// Tab switching
-function showTab(t){
+const DS=['d1','d2','d3','d4','d5','d6','d7'],NS=['n1','n2','n3','n4','n5'];
+let cur='day';
+function showTab(t,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   document.getElementById('panel-'+t).classList.add('on');
-  document.querySelector('.tab.'+t).classList.add('on');
+  if(btn)btn.classList.add('on');
   document.querySelector('.scroll').scrollTop=0;
+  cur=t;updateProg();
 }
-
-function showNav(tab,nav){
-  showTab(tab);
+function showNav(t,btn){
+  showTab(t,null);
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  event.currentTarget.classList.add('on');
+  btn.classList.add('on');
+  document.querySelectorAll('.tab').forEach((b,i)=>{b.classList.toggle('on',['day','nag','week'][i]===t);});
+}
+function tick(id){
+  const el=document.getElementById(id),c=document.getElementById('c-'+id);
+  el.classList.toggle('done');c.classList.toggle('on',el.classList.contains('done'));
+  updateProg();checkDone();
+}
+function tickN(id){
+  const el=document.getElementById(id),c=document.getElementById('c-'+id);
+  el.classList.toggle('done');c.classList.toggle('on',el.classList.contains('done'));
+  updateProg();checkDone();
+}
+function tickA(b){b.classList.toggle('on');updateProg();checkDone();}
+function checkDone(){
+  document.getElementById('dayDone').style.display=DS.every(id=>document.getElementById(id).classList.contains('done'))?'block':'none';
+  const nd=NS.every(id=>document.getElementById(id).classList.contains('done'));
+  const na=[...document.querySelectorAll('.achk')].some(b=>b.classList.contains('on'));
+  document.getElementById('nagDone').style.display=(nd&&na)?'block':'none';
+}
+function updateProg(){
+  let t=0,d=0,l='';
+  if(cur==='day'){t=DS.length;d=DS.filter(id=>document.getElementById(id).classList.contains('done')).length;l='Oggend Roetine';}
+  else if(cur==='nag'){t=NS.length+1;d=NS.filter(id=>document.getElementById(id).classList.contains('done')).length+([...document.querySelectorAll('.achk')].some(b=>b.classList.contains('on'))?1:0);l='Aand Roetine';}
+  else{document.getElementById('progLabel').textContent='Weeklikse Oorsig';document.getElementById('progPct').textContent='';document.getElementById('progBar').style.width='100%';return;}
+  const p=t?Math.round(d/t*100):0;
+  document.getElementById('progBar').style.width=p+'%';
+  document.getElementById('progLabel').textContent=l+' — '+d+' van '+t+' gedoen';
+  document.getElementById('progPct').textContent=p+'%';
+}
+function resetPanel(p){
+  if(p==='day'){DS.forEach(id=>{document.getElementById(id).classList.remove('done');document.getElementById('c-'+id).classList.remove('on');});document.getElementById('dayDone').style.display='none';}
+  else{NS.forEach(id=>{document.getElementById(id).classList.remove('done');document.getElementById('c-'+id).classList.remove('on');});document.querySelectorAll('.achk').forEach(b=>b.classList.remove('on'));document.getElementById('nagDone').style.display='none';}
+  updateProg();
 }
 </script>
 </body>
